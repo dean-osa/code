@@ -16,7 +16,7 @@ free_throws & accumulate(free_throws &targets,const free_throws &source);
 int main()
 {
     using namespace std;
-    free_throws one = {"A",13,14};
+    free_throws one = {"A",13,14};//结构体初始化，指定值比成员值少，其他的成员值都为0
     free_throws two = {"B",10,16};
     free_throws three = {"C",7,9};
     free_throws four = {"D",5,9};
@@ -29,6 +29,8 @@ int main()
     accumulate(team,one);
     display(team);
     display(accumulate(team,two));
+    /*accumulate(team,two);
+    display(team)*/
     display(accumulate(accumulate(team,three),four));
     display(team);
     dup = accumulate(team,five);
@@ -37,10 +39,9 @@ int main()
     std::cout<<"Displaying dup after assignment:\n";
     display(dup);
     set_pc(four);
-    accumulate(dup,five);
-    std::cout<<"displaying dup after ill-advised assignment:\n";
+    accumulate(dup,five)=four;
+    std::cout<<"Displaying dup after ill-advised assignment:\n";
     display(dup);
-    system("pause");
     return 0;
 }
 void display(const free_throws & ft)
