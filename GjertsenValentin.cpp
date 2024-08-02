@@ -1,68 +1,47 @@
 #include <iostream>
 #include <string>
 
-struct free_throws
-{
-    std::string name;
-    int made;
-    int attempts;
-    float percent;
-};
-
-void display(const free_throws & ft);
-void set_pc(free_throws & ft);
-free_throws & accumulate(free_throws &targets,const free_throws &source);
+using namespace std;
+string version1(string &s1,const string &s2);
+string &version2(string &s1,const string &s2);
+string &version3(string &s1,const string &s2);
 
 int main()
 {
-    using namespace std;
-    free_throws one = {"A",13,14};//结构体初始化，指定值比成员值少，其他的成员值都为0
-    free_throws two = {"B",10,16};
-    free_throws three = {"C",7,9};
-    free_throws four = {"D",5,9};
-    free_throws five = {"E",6,14};
-    free_throws team = {"G",0,0};
+    string input,copy,result;
 
-    free_throws dup;
-    set_pc(one);
-    display(one);
-    accumulate(team,one);
-    display(team);
-    display(accumulate(team,two));
-    /*accumulate(team,two);
-    display(team)*/
-    display(accumulate(accumulate(team,three),four));
-    display(team);
-    dup = accumulate(team,five);
-    std::cout<<"Displaying team:\n";
-    display(team);
-    std::cout<<"Displaying dup after assignment:\n";
-    display(dup);
-    set_pc(four);
-    accumulate(dup,five)=four;
-    std::cout<<"Displaying dup after ill-advised assignment:\n";
-    display(dup);
-    return 0;
+    cout<<"Enter a string: ";
+    getline(cin,input);
+    copy=input;
+    cout<<"Your string as entered: "<<input<<endl;
+    result=version1(input,"****");
+    cout<<"Your string enhanced: "<<result<<endl;
+    cout<<"Your original string: "<<input<<endl;
+
+    result=version2(input,"####");
+    cout<<"Your string enhanced: "<<result<<endl;
+    cout<<"Your original string: "<<input<<endl;
+
+    cout<<"Resetting original string.\n";
+    input =copy;
+    result = version3(input,"@@@@");
+    cout<<"Your string enhanced: "<<result<<endl;
+    cout<<"Your original string: "<<input<<endl;
 }
-void display(const free_throws & ft)
+string version1(string &s1,const string &s2)
 {
-    using std::cout;
-    cout<<"Name: "<<ft.name<<'\n';
-    cout<<"    Made: "<<ft.made<<"\t";
-    cout<<"Attempts: "<<ft.attempts<<'\t';
-    cout<<"Percent: "<<ft.percent<<'\n';
+    string temp;
+    temp = s2+s1+s1;
+    return temp;
 }
-void set_pc(free_throws & ft)
+string &version2(string &s1,const string &s2)
 {
-    if(ft.attempts!=0)
-        ft.percent=100.0f*float(ft.made)/float(ft.attempts);
-    else
-        ft.percent=0;
+    s1=s2+s1+s2;
+    return s1;
 }
-free_throws & accumulate (free_throws &targets,const free_throws &source)
+string &version3(string &s1,const string &s2)
 {
-    targets.attempts+=source.attempts;
-    targets.made+=source.made;
-    set_pc(targets);
-    return targets;
-}
+    string temp;
+    temp=s2+s1+s2;
+    return temp;
+}//因为返回的是引用所以不会去创建副本，导致temp已经被释放从而引起错误。
