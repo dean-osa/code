@@ -1,47 +1,58 @@
 #include <iostream>
-#include <string>
-
-using namespace std;
-string version1(string &s1,const string &s2);
-string &version2(string &s1,const string &s2);
-string &version3(string &s1,const string &s2);
-
+unsigned long left(unsigned long num,int n);
+char *left(const char *str,int n=1);
 int main()
 {
-    string input,copy,result;
-
-    cout<<"Enter a string: ";
-    getline(cin,input);
-    copy=input;
-    cout<<"Your string as entered: "<<input<<endl;
-    result=version1(input,"****");
-    cout<<"Your string enhanced: "<<result<<endl;
-    cout<<"Your original string: "<<input<<endl;
-
-    result=version2(input,"####");
-    cout<<"Your string enhanced: "<<result<<endl;
-    cout<<"Your original string: "<<input<<endl;
-
-    cout<<"Resetting original string.\n";
-    input =copy;
-    result = version3(input,"@@@@");
-    cout<<"Your string enhanced: "<<result<<endl;
-    cout<<"Your original string: "<<input<<endl;
+    using namespace std;
+    char *trip = "Hawail!!";
+    unsigned long num=12345678;
+    int i;
+    char *temp;
+    for(i=1;i<10;i++)
+    {
+        cout<<left(num,i)<<endl;
+        temp=left(trip,i);
+        cout<<temp<<endl;
+        delete[]temp;
+    }
+    return 0;
 }
-string version1(string &s1,const string &s2)
+unsigned long left(unsigned long num,int n)
 {
-    string temp;
-    temp = s2+s1+s1;
-    return temp;
+    int digit=1;
+    unsigned long num1=num;
+    if(n==0||num==0)
+        return 0;
+    while(num1/=10)
+    {
+        digit++;
+    }
+    int ct;
+    if(digit>n)
+    {
+        ct=(digit<n)?digit:digit-n;
+        while(ct--)
+        {
+            num/=10;
+        }
+        return num;
+    }
+    else
+        return num;
 }
-string &version2(string &s1,const string &s2)
+char *left(const char *str,int n)
 {
-    s1=s2+s1+s2;
-    return s1;
+    if(n<0)
+        n=0;
+    char *pr=new char [n+1];
+    int i;
+    for(i=0;i<n&&str[i];i++)
+    {
+        pr[i]=str[i];
+    }
+    while(i<=n)
+    {
+        pr[i++]='\0';
+    }
+    return pr;
 }
-string &version3(string &s1,const string &s2)
-{
-    string temp;
-    temp=s2+s1+s2;
-    return temp;
-}//因为返回的是引用所以不会去创建副本，导致temp已经被释放从而引起错误。
